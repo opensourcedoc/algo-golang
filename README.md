@@ -10,7 +10,7 @@ Since Go lacks generics, more boilerplate code are needed when implementing data
 - Use interface: as in Sort
 - Dynamic typing: use empty interface{} as C void*
 
-We adapts the third approach, delegating some code to users.
+We adapt the third approach, delegating some code to users.
 
 ## Copyright
 
