@@ -2,18 +2,18 @@ package list
 
 // Check whether two lists are equal.  If both the lengths and data of the
 // two list are identical, the two lists are equal.
-// Implement cmp function object to use this method.
-func (list *List) Equal(other *List, cmp func(interface{}, interface{}) (int, error)) (bool, error) {
+// Implement eq function object to use this method.
+func (list *List) Equal(other *List, eq func(interface{}, interface{}) (bool, error)) (bool, error) {
 	lPtr := list.head
 	rPtr := other.head
 
 	for lPtr != nil && rPtr != nil {
-		b, err := cmp(lPtr.data, rPtr.data)
+		b, err := eq(lPtr.data, rPtr.data)
 		if err != nil {
 			return false, err
 		}
 
-		if b != 0 {
+		if !b {
 			return false, nil
 		}
 
@@ -33,8 +33,8 @@ func (list *List) Equal(other *List, cmp func(interface{}, interface{}) (int, er
 }
 
 // Find an item in the list.  Return error if not found.
-// Implement cmp function object to use this method.
-func (list *List) Find(data interface{}, cmp func(interface{}, interface{}) (int, error)) (uint, error) {
+// Implement eq function object to use this method.
+func (list *List) Find(data interface{}, eq func(interface{}, interface{}) (bool, error)) (uint, error) {
 	if list.head == nil {
 		return 0, notFound()
 	}
@@ -42,12 +42,12 @@ func (list *List) Find(data interface{}, cmp func(interface{}, interface{}) (int
 	var count uint = 0
 	current := list.head
 	for current != nil {
-		b, err := cmp(current.data, data)
+		b, err := eq(current.data, data)
 		if err != nil {
 			return 0, err
 		}
 
-		if b == 0 {
+		if b {
 			return count, nil
 		}
 
@@ -59,18 +59,18 @@ func (list *List) Find(data interface{}, cmp func(interface{}, interface{}) (int
 }
 
 // Remove an item from the list.  Return error if not found.
-// Implement cmp function object to use this method
-func (list *List) Remove(data interface{}, cmp func(interface{}, interface{}) (int, error)) error {
+// Implement eq function object to use this method
+func (list *List) Remove(data interface{}, eq func(interface{}, interface{}) (bool, error)) error {
 	var previous *node = nil
 	var current *node = list.head
 
 	for current != nil {
-		b, err := cmp(current.data, data)
+		b, err := eq(current.data, data)
 		if err != nil {
 			return nil
 		}
 
-		if b == 0 {
+		if b {
 			if current == list.head {
 				if list.head == list.tail {
 					list.head = nil

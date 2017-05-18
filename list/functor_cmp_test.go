@@ -5,24 +5,18 @@ import (
 	"testing"
 )
 
-func cmp(a interface{}, b interface{}) (int, error) {
+func isEqual(a interface{}, b interface{}) (bool, error) {
 	na, ok := a.(int)
 	if !ok {
-		return 0, errors.New("Wrong type on a")
+		return false, errors.New("Wrong type on a")
 	}
 
 	nb, ok := b.(int)
 	if !ok {
-		return 0, errors.New("Wrong type on b")
+		return false, errors.New("Wrong type on b")
 	}
 
-	if na > nb {
-		return 1, nil
-	} else if na < nb {
-		return -1, nil
-	} else {
-		return 0, nil
-	}
+	return na == nb, nil
 }
 
 func isSmaller(a interface{}, b interface{}) (bool, error) {
@@ -44,7 +38,7 @@ func TestClone(t *testing.T) {
 
 	cloned := list.Clone()
 
-	if b, _ := list.Equal(cloned, cmp); b != true {
+	if b, _ := list.Equal(cloned, isEqual); b != true {
 		t.Error("Error Clone")
 	}
 }
@@ -53,7 +47,7 @@ func TestEqualFalse(t *testing.T) {
 	list1 := newEvenList()
 	list2 := newOddList()
 
-	if b, _ := list1.Equal(list2, cmp); b != false {
+	if b, _ := list1.Equal(list2, isEqual); b != false {
 		t.Error("Error Equal false")
 	}
 }
@@ -61,7 +55,7 @@ func TestEqualFalse(t *testing.T) {
 func TestFind(t *testing.T) {
 	list := New()
 
-	if _, err := list.Find(9999, cmp); err == nil {
+	if _, err := list.Find(9999, isEqual); err == nil {
 		t.Error("No not found error")
 	}
 
@@ -69,19 +63,19 @@ func TestFind(t *testing.T) {
 	list.Push(200)
 	list.Push(300)
 
-	if index, _ := list.Find(100, cmp); index != 0 {
+	if index, _ := list.Find(100, isEqual); index != 0 {
 		t.Error("Error Find at 0")
 	}
 
-	if index, _ := list.Find(200, cmp); index != 1 {
+	if index, _ := list.Find(200, isEqual); index != 1 {
 		t.Error("Error Find at 1")
 	}
 
-	if index, _ := list.Find(300, cmp); index != 2 {
+	if index, _ := list.Find(300, isEqual); index != 2 {
 		t.Error("Error Find at 2")
 	}
 
-	if _, err := list.Find(9999, cmp); err == nil {
+	if _, err := list.Find(9999, isEqual); err == nil {
 		t.Error("No not found error")
 	}
 }
@@ -89,7 +83,7 @@ func TestFind(t *testing.T) {
 func TestRemove(t *testing.T) {
 	list := New()
 
-	if err := list.Remove(9999, cmp); err == nil {
+	if err := list.Remove(9999, isEqual); err == nil {
 		t.Error("No index out of range error")
 	}
 
@@ -99,7 +93,7 @@ func TestRemove(t *testing.T) {
 	list.Push(400)
 	list.Push(500)
 
-	if err := list.Remove(100, cmp); err != nil {
+	if err := list.Remove(100, isEqual); err != nil {
 		t.Error("Error Remove 100")
 	}
 
@@ -107,7 +101,7 @@ func TestRemove(t *testing.T) {
 		t.Error("Error At 0 after Remove")
 	}
 
-	if err := list.Remove(500, cmp); err != nil {
+	if err := list.Remove(500, isEqual); err != nil {
 		t.Error("Error Remove 500")
 	}
 
@@ -115,11 +109,11 @@ func TestRemove(t *testing.T) {
 		t.Error("Error At Len() - 1 after Remove")
 	}
 
-	if err := list.Remove(300, cmp); err != nil {
+	if err := list.Remove(300, isEqual); err != nil {
 		t.Error("Error Remove 300")
 	}
 
-	if err := list.Remove(9999, cmp); err == nil {
+	if err := list.Remove(9999, isEqual); err == nil {
 		t.Error("Error Remove 9999")
 	}
 
