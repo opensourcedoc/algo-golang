@@ -106,32 +106,48 @@ func (list *List) Remove(data interface{}, cmp func(interface{}, interface{}) (i
 // Sort the list.  Shallow copy implemented.
 // Implement cmp function object to use this method.
 func (list *List) Sort(cmp func(interface{}, interface{}) (int, error)) (*List, error) {
-	newList := list.Clone()
+	newList := New()
 
-	// Return the list when 1) the list is empty
-	//                      2) the list has only one element
-	if newList.head == newList.tail {
-		return newList, nil
-	}
-
-	ptr := newList.head
+	ptr := list.head
 	for ptr != nil {
-		previous := newList.head
-		current := previous.next
-		for current != nil {
-			c, err := cmp(previous.data, current.data)
-			if err != nil {
-				return newList, err
+		if newList.IsEmpty() {
+			newList.Push(ptr.data)
+		} else {
+			var p *node = nil
+			q := newList.head
+
+			isAdded := false
+			for q != nil {
+				c, err := cmp(ptr.data, q.data)
+				if err != nil {
+					return newList, err
+				}
+
+				if c <= 0 {
+					if q == newList.head {
+						newList.Unshift(ptr.data)
+						isAdded = true
+						break
+					} else {
+						n := node{data: ptr.data, prev: nil, next: nil}
+						n.prev = p
+						n.next = q
+						q.prev = &n
+						p.next = &n
+						isAdded = true
+						break
+					}
+				}
+
+				p = q
+				q = q.next
 			}
 
-			if c > 0 {
-				// Swap data
-				previous.data, current.data = current.data, previous.data
+			if !isAdded {
+				newList.Push(ptr.data)
 			}
-
-			previous = current
-			current = current.next
 		}
+
 		ptr = ptr.next
 	}
 
