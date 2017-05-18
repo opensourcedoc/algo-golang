@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-    const color = enum.New("Red", "Green", "Blue")
+    var color = enum.New("Red", "Green", "Blue")
 
     if !color.Has("Green") {
 	    log.Fatal("Green should be there")
@@ -34,15 +34,15 @@ import (
 )
 
 func main() {
-    const color = enum.New("Red", "Green", "Blue")
-    
-    green := color.Get("Green")
-    
-    if enum.Eq(green, "Red") {
+    var color = enum.New("Red", "Green", "Blue")
+
+   green := color.Get("Green")
+
+    if color.Eq(green, "Red") {
         fmt.Println("It is red")
-    } else if enum.Eq(green, "Green") {
+    } else if color.Eq(green, "Green") {
         fmt.Println("It is green")
-    } else if enum.Eq(green, "Blue") {
+    } else if color.Eq(green, "Blue") {
         fmt.Println("It is blue")
     }
 }
