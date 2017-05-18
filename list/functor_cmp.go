@@ -33,8 +33,8 @@ func (list *List) Equal(other *List, eq func(interface{}, interface{}) (bool, er
 }
 
 // Find an item in the list.  Return error if not found.
-// Implement eq function object to use this method.
-func (list *List) Find(data interface{}, eq func(interface{}, interface{}) (bool, error)) (uint, error) {
+// Implement cmp function object to use this method.
+func (list *List) Find(data interface{}, cmp func(interface{}, interface{}) (bool, error)) (uint, error) {
 	if list.head == nil {
 		return 0, notFound()
 	}
@@ -42,7 +42,7 @@ func (list *List) Find(data interface{}, eq func(interface{}, interface{}) (bool
 	var count uint = 0
 	current := list.head
 	for current != nil {
-		b, err := eq(current.data, data)
+		b, err := cmp(current.data, data)
 		if err != nil {
 			return 0, err
 		}
@@ -59,13 +59,13 @@ func (list *List) Find(data interface{}, eq func(interface{}, interface{}) (bool
 }
 
 // Remove an item from the list.  Return error if not found.
-// Implement eq function object to use this method
-func (list *List) Remove(data interface{}, eq func(interface{}, interface{}) (bool, error)) error {
+// Implement cmp function object to use this method
+func (list *List) Remove(data interface{}, cmp func(interface{}, interface{}) (bool, error)) error {
 	var previous *node = nil
 	var current *node = list.head
 
 	for current != nil {
-		b, err := eq(current.data, data)
+		b, err := cmp(current.data, data)
 		if err != nil {
 			return nil
 		}
