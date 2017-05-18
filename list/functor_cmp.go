@@ -104,8 +104,8 @@ func (list *List) Remove(data interface{}, cmp func(interface{}, interface{}) (i
 }
 
 // Sort the list.  Shallow copy implemented.
-// Implement cmp function object to use this method.
-func (list *List) Sort(cmp func(interface{}, interface{}) (int, error)) (*List, error) {
+// Implement pred function object to use this method.
+func (list *List) Sort(pred func(interface{}, interface{}) (bool, error)) (*List, error) {
 	newList := New()
 
 	ptr := list.head
@@ -118,12 +118,12 @@ func (list *List) Sort(cmp func(interface{}, interface{}) (int, error)) (*List, 
 
 			isAdded := false
 			for q != nil {
-				c, err := cmp(ptr.data, q.data)
+				b, err := pred(ptr.data, q.data)
 				if err != nil {
 					return newList, err
 				}
 
-				if c <= 0 {
+				if b {
 					if q == newList.head {
 						newList.Unshift(ptr.data)
 						isAdded = true

@@ -25,6 +25,20 @@ func cmp(a interface{}, b interface{}) (int, error) {
 	}
 }
 
+func isSmaller(a interface{}, b interface{}) (bool, error) {
+	na, ok := a.(int)
+	if !ok {
+		return false, errors.New("Wrong type on a")
+	}
+
+	nb, ok := b.(int)
+	if !ok {
+		return false, errors.New("Wrong type on b")
+	}
+
+	return na < nb, nil
+}
+
 func TestClone(t *testing.T) {
 	list := new1To10List()
 
@@ -122,7 +136,7 @@ func TestSort(t *testing.T) {
 	list.Push(1)
 	list.Push(3)
 
-	sorted, _ := list.Sort(cmp)
+	sorted, _ := list.Sort(isSmaller)
 
 	count := 1
 	for e := range sorted.Iter() {
@@ -146,7 +160,7 @@ func TestSortSorted(t *testing.T) {
 	list.Push(3)
 	list.Push(4)
 
-	sorted, _ := list.Sort(cmp)
+	sorted, _ := list.Sort(isSmaller)
 
 	count := 1
 	for e := range sorted.Iter() {
