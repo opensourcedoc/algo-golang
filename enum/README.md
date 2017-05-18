@@ -36,7 +36,7 @@ import (
 func main() {
     var color = enum.New("Red", "Green", "Blue")
 
-   green := color.Get("Green")
+    green := color.Get("Green")
 
     if color.Eq(green, "Red") {
         fmt.Println("It is red")
