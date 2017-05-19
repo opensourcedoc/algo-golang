@@ -9,11 +9,20 @@ func (list *List) Map(m func(interface{}) (interface{}, error)) (*List, error) {
 
 	current := list.head
 	for current != nil {
-		d, err := m(current.data)
+		cnum := make(chan interface{}, 1)
+		cerr := make(chan error, 1)
+
+		go func() {
+			d, e := m(current.data)
+			cnum <- d
+			cerr <- e
+		}()
+
+		err := <-cerr
 		if err != nil {
 			return newList, err
 		}
-		newList.Push(d)
+		newList.Push(<-cnum)
 
 		current = current.next
 	}
