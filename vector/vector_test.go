@@ -108,6 +108,29 @@ func TestSubFloatInt(t *testing.T) {
 	}
 }
 
+func TestMulFloatInt(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+	v2 := New(2.0, 3.0, 4.0)
+	v, _ := v1.Mul(v2)
+
+	n0 := v.GetAt(0)
+	if n0.(float64) != 2.0 {
+		t.Error("Wrong value")
+	}
+
+	n1 := v.GetAt(1)
+	if n1.(float64) != 6.0 {
+		t.Error("Wrong value")
+	}
+
+	n2 := v.GetAt(2)
+	if n2.(float64) != 12.0 {
+		t.Error("Wrong value")
+	}
+}
+
 func TestCalcByAdd(t *testing.T) {
 	t.Parallel()
 
