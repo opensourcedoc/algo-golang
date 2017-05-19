@@ -5,34 +5,6 @@ import (
 	"testing"
 )
 
-func isEqual(a interface{}, b interface{}) (bool, error) {
-	na, ok := a.(int)
-	if !ok {
-		return false, errors.New("Wrong type on a")
-	}
-
-	nb, ok := b.(int)
-	if !ok {
-		return false, errors.New("Wrong type on b")
-	}
-
-	return na == nb, nil
-}
-
-func isSmaller(a interface{}, b interface{}) (bool, error) {
-	na, ok := a.(int)
-	if !ok {
-		return false, errors.New("Wrong type on a")
-	}
-
-	nb, ok := b.(int)
-	if !ok {
-		return false, errors.New("Wrong type on b")
-	}
-
-	return na < nb, nil
-}
-
 func TestClone(t *testing.T) {
 	list := new1To10List()
 
@@ -53,15 +25,7 @@ func TestEqualFalse(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-	list := New()
-
-	if _, err := list.Find(9999, isEqual); err == nil {
-		t.Error("No not found error")
-	}
-
-	list.Push(100)
-	list.Push(200)
-	list.Push(300)
+	list := NewFromArgs(100, 200, 300)
 
 	if index, _ := list.Find(100, isEqual); index != 0 {
 		t.Error("Error Find at 0")
@@ -81,17 +45,7 @@ func TestFind(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	list := New()
-
-	if err := list.Remove(9999, isEqual); err == nil {
-		t.Error("No index out of range error")
-	}
-
-	list.Push(100)
-	list.Push(200)
-	list.Push(300)
-	list.Push(400)
-	list.Push(500)
+	list := NewFromArgs(100, 200, 300, 400, 500)
 
 	if err := list.Remove(100, isEqual); err != nil {
 		t.Error("Error Remove 100")
@@ -122,14 +76,24 @@ func TestRemove(t *testing.T) {
 	}
 }
 
+func isEqual(a interface{}, b interface{}) (bool, error) {
+	na, ok := a.(int)
+	if !ok {
+		return false, errors.New("Wrong type on a")
+	}
+
+	nb, ok := b.(int)
+	if !ok {
+		return false, errors.New("Wrong type on b")
+	}
+
+	return na == nb, nil
+}
+
 func TestSort(t *testing.T) {
-	list := New()
+	list := NewFromArgs(4, 2, 1, 3)
 
-	list.Push(4)
-	list.Push(2)
-	list.Push(1)
-	list.Push(3)
-
+	// (1, 2, 3, 4)
 	sorted, _ := list.Sort(isSmaller)
 
 	count := 1
@@ -147,13 +111,9 @@ func TestSort(t *testing.T) {
 }
 
 func TestSortSorted(t *testing.T) {
-	list := New()
+	list := NewFromArgs(1, 2, 3, 4)
 
-	list.Push(1)
-	list.Push(2)
-	list.Push(3)
-	list.Push(4)
-
+	// (1, 2, 3, 4)
 	sorted, _ := list.Sort(isSmaller)
 
 	count := 1
@@ -168,4 +128,18 @@ func TestSortSorted(t *testing.T) {
 	if sorted.Len() != 4 {
 		t.Error("Error Len after Sort")
 	}
+}
+
+func isSmaller(a interface{}, b interface{}) (bool, error) {
+	na, ok := a.(int)
+	if !ok {
+		return false, errors.New("Wrong type on a")
+	}
+
+	nb, ok := b.(int)
+	if !ok {
+		return false, errors.New("Wrong type on b")
+	}
+
+	return na < nb, nil
 }

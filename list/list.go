@@ -20,6 +20,17 @@ func New() *List {
 	return &List{head: nil, tail: nil}
 }
 
+// Initialize with some values
+func NewFromArgs(args ...interface{}) *List {
+	list := New()
+
+	for _, e := range args {
+		list.Push(e)
+	}
+
+	return list
+}
+
 // Clone the content of an existing list.  Shallow copy implemented.
 func (list *List) Clone() *List {
 	newList := New()
