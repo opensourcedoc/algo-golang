@@ -1,12 +1,10 @@
-# list
+# List
 
-An implementation of doubly-linked list in Go
+Doubly-linked list in Go
 
 ## Usage
 
-A doubly-linked list implementation in Go
-
-This library implements doubly-linked list in Go. Since Go doesn't support generics, this library utilize empty interface to emulate this functionality, delegating element comparison tasks to users.
+Find specific elements:
 
 ```
 package main
@@ -30,7 +28,7 @@ func main() {
 }
 ```
 
-This library implements higher order functions as well. Same, the library delegates related interface implementations to users.
+Select only even elements:
 
 ```
 package main
@@ -48,7 +46,7 @@ func main() {
         l.Push(i)
     }
 
-    evens, _ := l.Select(even)
+    evens, _ := l.Select(isEven)
     for e := range evens.Iter() {
         n, _ := e.(int)
 	    if n % 2 != 0 {
@@ -57,7 +55,7 @@ func main() {
     }
 }
 
-func even(a interface{}) (bool, error) {
+func isEven(a interface{}) (bool, error) {
     n, ok := a.(int)
     if ok != true {
         return false, errors.New("Failed type assertion on a")
@@ -66,6 +64,14 @@ func even(a interface{}) (bool, error) {
     return n % 2 == 0, nil
 }
 ```
+
+## Intro
+
+A doubly-linked list implementation in Go
+
+This library implements doubly-linked list in Go. Since Go doesn't support generics, this library utilize empty interface to emulate this functionality, delegating element comparison tasks to users.
+
+This library implements common higher order functions as well. Same, the library delegates related function objects to users.
 
 ## Copyright
 
