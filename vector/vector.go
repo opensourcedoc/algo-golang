@@ -70,22 +70,43 @@ func (v *Vector) Add(other *Vector) (*Vector, error) {
 	out := WithSize(_len)
 
 	for i := 0; i < _len; i++ {
-		ta := reflect.TypeOf(v.vec[i])
-		tb := reflect.TypeOf(other.vec[i])
+		ta := reflect.TypeOf(v.vec[i]).String()
+		tb := reflect.TypeOf(other.vec[i]).String()
 
-		if ta != tb {
-			return out, unequalType()
+		if !(ta == "float64" || ta == "int") &&
+			!(tb == "float64" || tb == "int") {
+			if ta != tb {
+				return out, unequalType()
+			}
 		}
 
-		switch ta.String() {
+		switch ta {
 		case "float64":
-			a := v.vec[i].(float64)
-			b := other.vec[i].(float64)
-			out.SetAt(i, a+b)
+			switch tb {
+			case "float64":
+				a := v.vec[i].(float64)
+				b := other.vec[i].(float64)
+				out.SetAt(i, a+b)
+			case "int":
+				a := v.vec[i].(float64)
+				b := other.vec[i].(int)
+				out.SetAt(i, a+float64(b))
+			default:
+				return out, unknownType()
+			}
 		case "int":
-			a := v.vec[i].(int)
-			b := other.vec[i].(int)
-			out.SetAt(i, a+b)
+			switch tb {
+			case "float64":
+				a := v.vec[i].(int)
+				b := other.vec[i].(float64)
+				out.SetAt(i, float64(a)+b)
+			case "int":
+				a := v.vec[i].(int)
+				b := other.vec[i].(int)
+				out.SetAt(i, a+b)
+			default:
+				return out, unknownType()
+			}
 		case reflect.TypeOf(big.NewInt(0)).String():
 			a := v.vec[i].(*big.Int)
 			b := other.vec[i].(*big.Int)

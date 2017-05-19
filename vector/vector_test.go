@@ -2,6 +2,7 @@ package vector
 
 import (
 	"errors"
+	"math/big"
 	"testing"
 )
 
@@ -47,6 +48,40 @@ func TestAdd(t *testing.T) {
 	n2 := v.GetAt(2)
 	if n2.(int) != 7 {
 		t.Error("Wrong value")
+	}
+}
+
+func TestAddFloatInt(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+	v2 := New(2.0, 3.0, 4.0)
+	v, _ := v1.Add(v2)
+
+	n0 := v.GetAt(0)
+	if n0.(float64) != 3.0 {
+		t.Error("Wrong value")
+	}
+
+	n1 := v.GetAt(1)
+	if n1.(float64) != 5.0 {
+		t.Error("Wrong value")
+	}
+
+	n2 := v.GetAt(2)
+	if n2.(float64) != 7.0 {
+		t.Error("Wrong value")
+	}
+}
+
+func TestUncompatibleType(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+	v2 := New(big.NewInt(2), big.NewInt(3), big.NewInt(4))
+	_, err := v1.Add(v2)
+	if err == nil {
+		t.Error("The two vectors should be incompatible")
 	}
 }
 

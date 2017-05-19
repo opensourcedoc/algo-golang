@@ -19,5 +19,5 @@ func unequalType() error {
 }
 
 func unknownType() error {
-	return errors.New("Unknown Type. Consider AddBy method.")
+	return errors.New("Unknown Type. Consider CalcBy method.")
 }
