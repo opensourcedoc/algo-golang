@@ -5,10 +5,13 @@ import (
 	"reflect"
 )
 
+// Vector class.
+// Internally, this class holds an array to empty interface, i.e. arbitrary type.
 type Vector struct {
 	vec []interface{}
 }
 
+// Create a Vector with some arguments.
 func New(args ...interface{}) *Vector {
 	v := new(Vector)
 	v.vec = make([]interface{}, len(args))
@@ -20,6 +23,7 @@ func New(args ...interface{}) *Vector {
 	return v
 }
 
+// Create an empty Vector with specific size.
 func WithSize(s int) *Vector {
 	if s <= 0 {
 		negativeSize()
@@ -31,6 +35,7 @@ func WithSize(s int) *Vector {
 	return v
 }
 
+// Create a Vector from an array.
 func FromArray(arr []interface{}) *Vector {
 	v := new(Vector)
 	v.vec = make([]interface{}, len(arr))
@@ -42,6 +47,7 @@ func FromArray(arr []interface{}) *Vector {
 	return v
 }
 
+// Get specific element by indexing.
 func (v *Vector) GetAt(i int) interface{} {
 	if i < 0 || i >= len(v.vec) {
 		indexOutOfRange()
@@ -50,6 +56,7 @@ func (v *Vector) GetAt(i int) interface{} {
 	return v.vec[i]
 }
 
+// Set specific element by specific index.
 func (v *Vector) SetAt(i int, data interface{}) {
 	if i < 0 || i >= len(v.vec) {
 		indexOutOfRange()
@@ -58,7 +65,7 @@ func (v *Vector) SetAt(i int, data interface{}) {
 	v.vec[i] = data
 }
 
-// Vector addition
+// Vector addition.
 // This method relies on reflect to automatically detect element type, which
 // tends to be slow. Using CalcBy method is favored.
 func (v *Vector) Add(other *Vector) (*Vector, error) {
@@ -127,7 +134,7 @@ func (v *Vector) Add(other *Vector) (*Vector, error) {
 	return out, nil
 }
 
-// Vector subtraction
+// Vector subtraction.
 // This method relies on reflect to automatically detect element type, which
 // tends to be slow. Using CalcBy method is favored.
 func (v *Vector) Sub(other *Vector) (*Vector, error) {
