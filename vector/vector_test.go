@@ -213,7 +213,7 @@ func TestReduceByAdd(t *testing.T) {
 	t.Parallel()
 
 	v := New(1, 2, 3, 4, 5)
-	n, _ := v.ReduceBy(intAdd)
+	n, _ := v.Reduce(intAdd)
 	if n.(int) != 15 {
 		t.Log(n)
 		t.Error("Wrong value")

@@ -387,7 +387,7 @@ func (v *Vector) Apply(other *Vector, f func(interface{}, interface{}) (interfac
 
 // Vector to scalars reduction.
 // This method delegates vector reduction to function object set by users.
-func (v *Vector) ReduceBy(f func(interface{}, interface{}) (interface{}, error)) (interface{}, error) {
+func (v *Vector) Reduce(f func(interface{}, interface{}) (interface{}, error)) (interface{}, error) {
 	_len := v.Len()
 	if _len == 0 {
 		return nil, nil
