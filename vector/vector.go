@@ -344,7 +344,7 @@ func (v *Vector) Div(other *Vector) (*Vector, error) {
 // Vector algebra delegating to function object.
 // This method delegates vector algebra to function object set by users, making
 // it faster then these methods relying on reflection.
-func (v *Vector) CalcBy(other *Vector, f func(interface{}, interface{}) (interface{}, error)) (*Vector, error) {
+func (v *Vector) Apply(other *Vector, f func(interface{}, interface{}) (interface{}, error)) (*Vector, error) {
 	_len := len(v.vec)
 	if _len != len(other.vec) {
 		unequalLength()

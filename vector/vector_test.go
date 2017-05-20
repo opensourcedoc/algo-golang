@@ -155,12 +155,12 @@ func TestDivFloatInt(t *testing.T) {
 	}
 }
 
-func TestCalcByAdd(t *testing.T) {
+func TestApplyAdd(t *testing.T) {
 	t.Parallel()
 
 	v1 := New(1, 2, 3)
 	v2 := New(2, 3, 4)
-	v, _ := v1.CalcBy(v2, intAdd)
+	v, _ := v1.Apply(v2, intAdd)
 
 	n0 := v.GetAt(0)
 	if n0.(int) != 3 {
