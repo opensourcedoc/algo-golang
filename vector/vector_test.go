@@ -155,6 +155,37 @@ func TestDivFloatInt(t *testing.T) {
 	}
 }
 
+func TestMapSquare(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+	v, _ := v1.Map(intSquare)
+
+	n0 := v.GetAt(0)
+	if n0.(int) != 1 {
+		t.Error("Wrong value")
+	}
+
+	n1 := v.GetAt(1)
+	if n1.(int) != 4 {
+		t.Error("Wrong value")
+	}
+
+	n2 := v.GetAt(2)
+	if n2.(int) != 9 {
+		t.Error("Wrong value")
+	}
+}
+
+func intSquare(a interface{}) (interface{}, error) {
+	na, ok := a.(int)
+	if !ok {
+		return 0, errors.New("Wrong value a")
+	}
+
+	return na * na, nil
+}
+
 func TestApplyAdd(t *testing.T) {
 	t.Parallel()
 

@@ -345,6 +345,24 @@ func (v *Vector) Div(other *Vector) (*Vector, error) {
 	return out, nil
 }
 
+// Vector transformation delegating to function object.
+// This method delegates vector transformation to function object set by users.
+func (v *Vector) Map(f func(interface{}) (interface{}, error)) (*Vector, error) {
+	_len := len(v.vec)
+
+	out := WithSize(_len)
+
+	for i := 0; i < _len; i++ {
+		n, err := f(v.vec[i])
+		if err != nil {
+			return out, err
+		}
+		out.SetAt(i, n)
+	}
+
+	return out, nil
+}
+
 // Vector algebra delegating to function object.
 // This method delegates vector algebra to function object set by users, making
 // it faster then these methods relying on reflection.
