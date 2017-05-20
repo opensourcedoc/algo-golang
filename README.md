@@ -1,6 +1,6 @@
-# Data Structures in Go
+# Data Structures and Algorithms in Go
 
-The repo implements common data structures in Go.
+The repo implements common data structures and algorithms in Go.
 
 ## Intro
 
