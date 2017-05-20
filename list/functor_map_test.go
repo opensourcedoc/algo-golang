@@ -6,13 +6,22 @@ import (
 )
 
 func TestMap(t *testing.T) {
-	list := newOddList()
+	t.Parallel()
 
+	list := newOddList()
 	evenList, _ := list.Map(mapper)
+
 	for e := range evenList.Iter() {
 		if e.(int)%2 != 0 {
 			t.Error("Error Map result")
 		}
+	}
+}
+
+func BenchmarkMap(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		list := newOddList()
+		_, _ = list.Map(mapper)
 	}
 }
 
