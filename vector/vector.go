@@ -47,6 +47,10 @@ func FromArray(arr []interface{}) *Vector {
 	return v
 }
 
+func (v *Vector) Len() int {
+	return len(v.vec)
+}
+
 // Get specific element by indexing.
 func (v *Vector) GetAt(i int) interface{} {
 	if i < 0 || i >= len(v.vec) {
@@ -361,4 +365,26 @@ func (v *Vector) Apply(other *Vector, f func(interface{}, interface{}) (interfac
 	}
 
 	return out, nil
+}
+
+// Vector to scalars reduction.
+// This method delegates vector reduction to function object set by users.
+func (v *Vector) ReduceBy(f func(interface{}, interface{}) (interface{}, error)) (interface{}, error) {
+	_len := v.Len()
+	if _len == 0 {
+		return nil, nil
+	} else if _len == 1 {
+		return v.vec[0], nil
+	}
+
+	n := v.vec[0]
+	for i := 1; i < _len; i++ {
+		m, err := f(n, v.vec[i])
+		n = m
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return n, nil
 }

@@ -178,6 +178,17 @@ func TestApplyAdd(t *testing.T) {
 	}
 }
 
+func TestReduceByAdd(t *testing.T) {
+	t.Parallel()
+
+	v := New(1, 2, 3, 4, 5)
+	n, _ := v.ReduceBy(intAdd)
+	if n.(int) != 15 {
+		t.Log(n)
+		t.Error("Wrong value")
+	}
+}
+
 func intAdd(a interface{}, b interface{}) (interface{}, error) {
 	na, ok := a.(int)
 	if !ok {
