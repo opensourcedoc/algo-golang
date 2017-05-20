@@ -7,11 +7,10 @@ import ()
 func (list *List) Map(m func(interface{}) (interface{}, error)) (*List, error) {
 	newList := New()
 
-	_len := list.Len()
-	cnum := make(chan interface{}, _len)
-	cerr := make(chan error, _len)
 	current := list.head
 	for current != nil {
+		cnum := make(chan interface{}, 1)
+		cerr := make(chan error, 1)
 		go func() {
 			d, e := m(current.data)
 			cnum <- d

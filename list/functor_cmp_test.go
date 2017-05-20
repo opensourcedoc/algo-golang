@@ -25,7 +25,7 @@ func TestEqualFalse(t *testing.T) {
 }
 
 func TestFind(t *testing.T) {
-	list := NewFromArgs(100, 200, 300)
+	list := FromArgs(100, 200, 300)
 
 	if index, _ := list.Find(100, isEqual); index != 0 {
 		t.Error("Error Find at 0")
@@ -45,7 +45,7 @@ func TestFind(t *testing.T) {
 }
 
 func TestRemove(t *testing.T) {
-	list := NewFromArgs(100, 200, 300, 400, 500)
+	list := FromArgs(100, 200, 300, 400, 500)
 
 	if err := list.Remove(100, isEqual); err != nil {
 		t.Error("Error Remove 100")
@@ -91,7 +91,7 @@ func isEqual(a interface{}, b interface{}) (bool, error) {
 }
 
 func TestSort(t *testing.T) {
-	list := NewFromArgs(4, 2, 1, 3)
+	list := FromArgs(4, 2, 1, 3)
 
 	// (1, 2, 3, 4)
 	sorted, _ := list.Sort(isSmaller)
@@ -111,7 +111,7 @@ func TestSort(t *testing.T) {
 }
 
 func TestSortSorted(t *testing.T) {
-	list := NewFromArgs(1, 2, 3, 4)
+	list := FromArgs(1, 2, 3, 4)
 
 	// (1, 2, 3, 4)
 	sorted, _ := list.Sort(isSmaller)

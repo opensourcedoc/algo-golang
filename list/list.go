@@ -21,10 +21,21 @@ func New() *List {
 }
 
 // Initialize with some values
-func NewFromArgs(args ...interface{}) *List {
+func FromArgs(args ...interface{}) *List {
 	list := New()
 
 	for _, e := range args {
+		list.Push(e)
+	}
+
+	return list
+}
+
+// Initialize from array
+func FromArray(arr []interface{}) *List {
+	list := New()
+
+	for _, e := range arr {
 		list.Push(e)
 	}
 
