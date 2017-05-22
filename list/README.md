@@ -2,6 +2,15 @@
 
 Doubly-linked list in Go
 
+## Intro
+
+A doubly-linked list implementation in Go
+
+This library implements doubly-linked list in Go. Since Go doesn't support generics, this library utilize empty interface to emulate this functionality, delegating element comparison tasks to users.
+
+This library implements common higher order functions as well. Same, the library delegates related function objects to users.
+
+
 ## Usage
 
 Find specific elements:
@@ -10,7 +19,7 @@ Find specific elements:
 package main
 
 import (
-    "github.com/cwchentw/ds-golang/list"
+    "github.com/cwchentw/algo-golang/list"
     "log"
 )
 
@@ -35,7 +44,7 @@ package main
 
 import (
     "errors"
-    "github.com/cwchentw/ds-golang/list"
+    "github.com/cwchentw/algo-golang/list"
     "log"
 )
 
@@ -64,14 +73,6 @@ func isEven(a interface{}) (bool, error) {
     return n % 2 == 0, nil
 }
 ```
-
-## Intro
-
-A doubly-linked list implementation in Go
-
-This library implements doubly-linked list in Go. Since Go doesn't support generics, this library utilize empty interface to emulate this functionality, delegating element comparison tasks to users.
-
-This library implements common higher order functions as well. Same, the library delegates related function objects to users.
 
 ## Copyright
 

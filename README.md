@@ -8,9 +8,9 @@ Since Go lacks generics, more boilerplate code are needed when implementing data
 
 - Code generation: use templates, e.g. [genny](https://github.com/cheekybits/genny)
 - Use interface: as in Sort
-- Dynamic typing: use empty interface{} as C void*
+- Dynamic typing: use empty interface as C void*
 
-We adapt the third approach, delegating some code to users.
+We adapt the third approach, delegating some tasks to users.
 
 ## Copyright
 
