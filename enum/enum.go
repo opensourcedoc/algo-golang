@@ -1,33 +1,29 @@
 package enum
 
-type Enum struct {
-	set map[interface{}]bool
-}
+type Enum map[interface{}]bool
 
 func New(args ...interface{}) *Enum {
-	enum := new(Enum)
-	enum.set = make(map[interface{}]bool)
+	enum := make(Enum)
 
 	for _, e := range args {
-		enum.set[e] = true
+		enum[e] = true
 	}
 
-	return enum
+	return &enum
 }
 
-func NewFromArray(arr []interface{}) *Enum {
-	enum := new(Enum)
-	enum.set = make(map[interface{}]bool)
+func FromArray(arr []interface{}) *Enum {
+	enum := make(Enum)
 
 	for _, e := range arr {
-		enum.set[e] = true
+		enum[e] = true
 	}
 
-	return enum
+	return &enum
 }
 
 func (e *Enum) Has(v interface{}) bool {
-	_, ok := e.set[v]
+	_, ok := (*e)[v]
 
 	if !ok {
 		panic("Unknown value")

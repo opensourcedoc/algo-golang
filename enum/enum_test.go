@@ -72,7 +72,7 @@ func TestGetNonExistingValue(t *testing.T) {
 func TestExistingValueFromArray(t *testing.T) {
 	t.Parallel()
 
-	enum := NewFromArray([]interface{}{"Red", "Green", "Blue"})
+	enum := FromArray([]interface{}{"Red", "Green", "Blue"})
 
 	if !enum.Has("Green") {
 		t.Error("Green should be there")
@@ -88,7 +88,7 @@ func TestNonExistingValueFromArray(t *testing.T) {
 		}
 	}()
 
-	enum := NewFromArray([]interface{}{"Red", "Green", "Blue"})
+	enum := FromArray([]interface{}{"Red", "Green", "Blue"})
 	if enum.Has("Yellow") {
 		t.Error("Yellow should not be there")
 	}
@@ -97,7 +97,7 @@ func TestNonExistingValueFromArray(t *testing.T) {
 func TestGetValueFromArray(t *testing.T) {
 	t.Parallel()
 
-	enum := NewFromArray([]interface{}{"Red", "Green", "Blue"})
+	enum := FromArray([]interface{}{"Red", "Green", "Blue"})
 	green := enum.Get("Green")
 
 	g, ok := green.(string)
@@ -119,6 +119,6 @@ func TestGetNonExistingValueFromArray(t *testing.T) {
 		}
 	}()
 
-	enum := NewFromArray([]interface{}{"Red", "Green", "Blue"})
+	enum := FromArray([]interface{}{"Red", "Green", "Blue"})
 	_ = enum.Get("Yellow")
 }
