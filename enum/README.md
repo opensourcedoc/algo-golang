@@ -2,6 +2,32 @@
 
 Enumeration implementation in Go
 
+## Intro
+
+Go lacks real enumeration type. Currently, most online tutorials use constant as an alternative. However, that apporach misses real type protecton. The following code is wrongly correct:
+
+```
+package main
+
+import "log"
+
+type Color int
+
+const (
+    Red Color = iota + 1
+    Green
+    Blue
+)
+
+func main() {
+    if !(1 == Red) {
+        log.Fatal("It is not equal")
+    }
+}
+```
+
+In our approach, we use set (as math) to emulate enumeration. When programmers call non-existing values, our program will emit some error to notify users.
+
 ## Usage
 
 Check whether the value exists:
@@ -47,32 +73,6 @@ func main() {
     }
 }
 ```
-
-## Intro
-
-Go lacks real enumeration type. Currently, most online tutorials use constant as an alternative. However, that apporach misses real type protecton. The following code is wrongly correct:
-
-```
-package main
-
-import "log"
-
-type Color int
-
-const (
-    Red Color = iota + 1
-    Green
-    Blue
-)
-
-func main() {
-    if !(1 == Red) {
-        log.Fatal("It is not equal")
-    }
-}
-```
-
-In our approach, we use set (as math) to emulate enumeration. When programmers call non-existing values, our program will emit some error to notify users.
 
 ## Copyright
 
