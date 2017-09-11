@@ -112,157 +112,27 @@ func (v *Vector) Sort() IVector {
 
 // Vector addition
 func Add(v1 IVector, v2 IVector) IVector {
-	_len := v1.Len()
-
-	if !(_len == v2.Len()) {
-		panic("Unequal vector size")
-	}
-
-	out := WithSize(_len)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v1 IVector, v2 IVector, out IVector, i int) {
-			defer wg.Done()
-
-			a := v1.GetAt(i)
-			b := v2.GetAt(i)
-
-			out.SetAt(i, a+b)
-
-		}(v1, v2, out, i)
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(v1, v2, func(a float64, b float64) float64 { return a + b })
 }
 
 // Vector substraction
 func Sub(v1 IVector, v2 IVector) IVector {
-	_len := v1.Len()
-
-	if !(_len == v2.Len()) {
-		panic("Unequal vector size")
-	}
-
-	out := WithSize(_len)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v1 IVector, v2 IVector, out IVector, i int) {
-			defer wg.Done()
-
-			a := v1.GetAt(i)
-			b := v2.GetAt(i)
-
-			out.SetAt(i, a-b)
-
-		}(v1, v2, out, i)
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(v1, v2, func(a float64, b float64) float64 { return a - b })
 }
 
 // Vector multiplication
 func Mul(v1 IVector, v2 IVector) IVector {
-	_len := v1.Len()
-
-	if !(_len == v2.Len()) {
-		panic("Unequal vector size")
-	}
-
-	out := WithSize(_len)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v1 IVector, v2 IVector, out IVector, i int) {
-			defer wg.Done()
-
-			a := v1.GetAt(i)
-			b := v2.GetAt(i)
-
-			out.SetAt(i, a*b)
-
-		}(v1, v2, out, i)
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(v1, v2, func(a float64, b float64) float64 { return a * b })
 }
 
 // Vector division
 func Div(v1 IVector, v2 IVector) IVector {
-	_len := v1.Len()
-
-	if !(_len == v2.Len()) {
-		panic("Unequal vector size")
-	}
-
-	out := WithSize(_len)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v1 IVector, v2 IVector, out IVector, i int) {
-			defer wg.Done()
-
-			a := v1.GetAt(i)
-			b := v2.GetAt(i)
-
-			out.SetAt(i, a/b)
-
-		}(v1, v2, out, i)
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(v1, v2, func(a float64, b float64) float64 { return a / b })
 }
 
 // Vector power
 func Pow(v1 IVector, v2 IVector) IVector {
-	_len := v1.Len()
-
-	if !(_len == v2.Len()) {
-		panic("Unequal vector size")
-	}
-
-	out := WithSize(_len)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v1 IVector, v2 IVector, out IVector, i int) {
-			defer wg.Done()
-
-			a := v1.GetAt(i)
-			b := v2.GetAt(i)
-
-			out.SetAt(i, math.Pow(a, b))
-
-		}(v1, v2, out, i)
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(v1, v2, func(a float64, b float64) float64 { return math.Pow(a, b) })
 }
 
 // Vector transformation delegating to function object.
