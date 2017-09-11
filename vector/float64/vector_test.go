@@ -117,3 +117,22 @@ func TestVectorPower(t *testing.T) {
 		t.Log(v.GetAt(2))
 	}
 }
+
+func TestVectorMap(t *testing.T) {
+	t.Parallel()
+
+	v := New(1, 2, 3)
+	out := v.Map(func(n float64) float64 { return n * n })
+
+	if !(out.GetAt(0) == 1) {
+		t.Log(v.GetAt(0))
+	}
+
+	if !(out.GetAt(1) == 4) {
+		t.Log(v.GetAt(1))
+	}
+
+	if !(out.GetAt(2) == 9) {
+		t.Log(v.GetAt(2))
+	}
+}

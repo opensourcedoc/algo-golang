@@ -10,6 +10,7 @@ type IVector interface {
 	GetAt(int) float64
 	SetAt(int, float64)
 	Sort() IVector
+	Map(func(float64) float64) IVector
 }
 
 type Vector struct {
@@ -258,6 +259,30 @@ func Pow(v1 IVector, v2 IVector) IVector {
 			out.SetAt(i, math.Pow(a, b))
 
 		}(v1, v2, out, i)
+	}
+
+	wg.Wait()
+
+	return out
+}
+
+// Vector transformation delegating to function object.
+// This method delegates vector transformation to function object set by users.
+func (v *Vector) Map(f func(float64) float64) IVector {
+	_len := v.Len()
+
+	out := WithSize(_len)
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < _len; i++ {
+		wg.Add(1)
+
+		go func(v1 IVector, v2 IVector, f func(float64) float64, i int) {
+			defer wg.Done()
+
+			out.SetAt(i, f(v.GetAt(i)))
+		}(v, out, f, i)
 	}
 
 	wg.Wait()
