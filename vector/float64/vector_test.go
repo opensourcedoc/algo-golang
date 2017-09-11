@@ -118,6 +118,19 @@ func TestVectorPower(t *testing.T) {
 	}
 }
 
+func TestVectorDot(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+	v2 := New(2, 3, 4)
+
+	n := Dot(v1, v2)
+
+	if !(n == 20) {
+		t.Log(n)
+	}
+}
+
 func TestVectorMap(t *testing.T) {
 	t.Parallel()
 

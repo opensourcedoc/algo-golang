@@ -135,6 +135,10 @@ func Pow(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return math.Pow(a, b) })
 }
 
+func Dot(v1 IVector, v2 IVector) float64 {
+	return Reduce(Mul(v1, v2), func(a float64, b float64) float64 { return a + b })
+}
+
 // Vector transformation delegating to function object.
 // This method delegates vector transformation to function object set by users.
 func Map(v IVector, f func(float64) float64) IVector {
