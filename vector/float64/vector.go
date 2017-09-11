@@ -11,6 +11,7 @@ type IVector interface {
 	SetAt(int, float64)
 	Sort() IVector
 	Map(func(float64) float64) IVector
+	Reduce(func(float64, float64) float64) float64
 }
 
 type Vector struct {
@@ -315,6 +316,24 @@ func Apply(v1 IVector, v2 IVector, f func(float64, float64) float64) IVector {
 	}
 
 	wg.Wait()
+
+	return out
+}
+
+// Vector to scalars reduction.
+// This method delegates vector reduction to function object set by users.
+func (v *Vector) Reduce(f func(float64, float64) float64) float64 {
+	_len := v.Len()
+
+	if _len <= 1 {
+		return v.GetAt(0)
+	}
+
+	out := v.GetAt(0)
+
+	for i := 1; i < _len; i++ {
+		out = f(out, v.GetAt(i))
+	}
 
 	return out
 }

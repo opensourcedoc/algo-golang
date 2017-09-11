@@ -157,3 +157,14 @@ func TestVectorApply(t *testing.T) {
 		t.Log(v.GetAt(2))
 	}
 }
+
+func TestReduceByAdd(t *testing.T) {
+	t.Parallel()
+
+	v := New(1, 2, 3, 4, 5)
+	n := v.Reduce(func(a float64, b float64) float64 { return a + b })
+	if n != 15 {
+		t.Log(n)
+		t.Error("Wrong value")
+	}
+}
