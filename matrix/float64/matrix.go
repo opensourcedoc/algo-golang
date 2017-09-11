@@ -115,6 +115,35 @@ func Div(m1 IMatrix, m2 IMatrix) IMatrix {
 	return Apply(m1, m2, func(a float64, b float64) float64 { return a / b })
 }
 
+// Matrix product
+func Dot(m1 IMatrix, m2 IMatrix) IMatrix {
+	if m1.Col() != m2.Row() {
+		panic("Invalid dimension")
+	}
+
+	out := WithSize(m1.Row(), m2.Col())
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < m1.Row(); i++ {
+		for j := 0; j < m2.Col(); j++ {
+			wg.Add(1)
+			go func(m1 IMatrix, m2 IMatrix, out IMatrix, i int, j int) {
+				defer wg.Done()
+				temp := 0.0
+				for k := 0; k < m1.Col(); k++ {
+					temp += m1.GetAt(i, k) * m2.GetAt(k, j)
+				}
+				out.SetAt(i, j, temp)
+			}(m1, m2, out, i, j)
+		}
+	}
+
+	wg.Wait()
+
+	return out
+}
+
 func Apply(m1 IMatrix, m2 IMatrix, f func(float64, float64) float64) IMatrix {
 	row := m1.Row()
 	col := m1.Col()

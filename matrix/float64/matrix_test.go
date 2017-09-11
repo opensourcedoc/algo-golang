@@ -212,3 +212,42 @@ func TestMatrixDiv(t *testing.T) {
 		t.Error("Wrong value")
 	}
 }
+
+func TestMatrixDot(t *testing.T) {
+	t.Parallel()
+
+	m1 := New(
+		[][]float64{
+			[]float64{1.0, 2.0, 3.0},
+			[]float64{4.0, 5.0, 6.0},
+		},
+	)
+
+	m2 := New(
+		[][]float64{
+			[]float64{1.0, 4.0},
+			[]float64{2.0, 5.0},
+			[]float64{3.0, 6.0},
+		},
+	)
+
+	m := Dot(m1, m2)
+
+	if !(m.GetAt(0, 0) == 14) {
+		t.Log(m.GetAt(0, 0))
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(0, 1) == 32) {
+		t.Log(m.GetAt(0, 1))
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 0) == 32) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 1) == 77) {
+		t.Error("Wrong value")
+	}
+}
