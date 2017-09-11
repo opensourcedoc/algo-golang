@@ -77,6 +77,12 @@ func (v *Vector) SetAt(i int, data float64) {
 	v.Unlock()
 }
 
+func Magnitude(v IVector) float64 {
+	temp := Map(v, func(n float64) float64 { return math.Pow(n, 2) })
+	sum := Reduce(temp, func(a float64, b float64) float64 { return a + b })
+	return math.Sqrt(sum)
+}
+
 func Sort(v IVector) IVector {
 	if v.Len() == 0 {
 		return v

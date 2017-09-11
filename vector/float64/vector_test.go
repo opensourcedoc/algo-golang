@@ -1,8 +1,13 @@
 package vector
 
-import "testing"
+import (
+	"math"
+	"testing"
+)
 
 func TestVectorSort(t *testing.T) {
+	t.Parallel()
+
 	v := New(4, 2, 3, 5, 1)
 	sorted := Sort(v)
 
@@ -10,6 +15,17 @@ func TestVectorSort(t *testing.T) {
 		if !(sorted.GetAt(i) == float64(i+1)) {
 			t.Error("Wrong value")
 		}
+	}
+}
+
+func TestVectorMagnitude(t *testing.T) {
+	t.Parallel()
+
+	v := New(1, 2, 3)
+	n := Magnitude(v)
+
+	if math.Abs(n-3.741657) > 1.0/100000 {
+		t.Error("Wrong number")
 	}
 }
 
