@@ -205,3 +205,40 @@ func Mul(m1 IMatrix, m2 IMatrix) IMatrix {
 
 	return out
 }
+
+// Matrix element-wise division
+func Div(m1 IMatrix, m2 IMatrix) IMatrix {
+	row := m1.Row()
+	col := m1.Col()
+
+	if row != m2.Row() {
+		panic("Unequal row size")
+	}
+
+	if col != m2.Col() {
+		panic("Unequal column size")
+	}
+
+	out := WithSize(row, col)
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < row; i++ {
+		for j := 0; j < col; j++ {
+			wg.Add(1)
+
+			go func(m1 IMatrix, m2 IMatrix, out IMatrix, i int, j int) {
+				defer wg.Done()
+
+				a := m1.GetAt(i, j)
+				b := m2.GetAt(i, j)
+
+				out.SetAt(i, j, a/b)
+			}(m1, m2, out, i, j)
+		}
+	}
+
+	wg.Wait()
+
+	return out
+}

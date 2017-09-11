@@ -168,3 +168,47 @@ func TestMatrixMul(t *testing.T) {
 		t.Error("Wrong value")
 	}
 }
+
+func TestMatrixDiv(t *testing.T) {
+	t.Parallel()
+
+	m1 := New(
+		[][]float64{
+			[]float64{1.0, 2.0, 3.0},
+			[]float64{4.0, 5.0, 6.0},
+		},
+	)
+
+	m2 := New(
+		[][]float64{
+			[]float64{2.0, 3.0, 4.0},
+			[]float64{5.0, 6.0, 7.0},
+		},
+	)
+
+	m := Div(m1, m2)
+
+	if !(m.GetAt(0, 0) == 0.5) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(0, 1) == 2.0/3.0) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(0, 2) == 0.75) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 0) == 0.8) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 1) == 5.0/6.0) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 2) == 6.0/7.0) {
+		t.Error("Wrong value")
+	}
+}
