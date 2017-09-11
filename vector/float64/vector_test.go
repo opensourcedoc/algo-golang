@@ -136,3 +136,24 @@ func TestVectorMap(t *testing.T) {
 		t.Log(v.GetAt(2))
 	}
 }
+
+func TestVectorApply(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+	v2 := New(2, 3, 4)
+
+	v := Apply(v1, v2, func(a float64, b float64) float64 { return a + b })
+
+	if !(v.GetAt(0) == 3.0) {
+		t.Log(v.GetAt(0))
+	}
+
+	if !(v.GetAt(1) == 5.0) {
+		t.Log(v.GetAt(1))
+	}
+
+	if !(v.GetAt(2) == 7.0) {
+		t.Log(v.GetAt(2))
+	}
+}

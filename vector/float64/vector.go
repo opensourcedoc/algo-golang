@@ -289,3 +289,32 @@ func (v *Vector) Map(f func(float64) float64) IVector {
 
 	return out
 }
+
+// Vector algebra delegating to function object.
+// This method delegates vector algebra to function object set by users, making
+// it faster then these methods relying on reflection.
+func Apply(v1 IVector, v2 IVector, f func(float64, float64) float64) IVector {
+	_len := v1.Len()
+
+	if !(_len == v2.Len()) {
+		panic("Unequal vector size")
+	}
+
+	out := WithSize(_len)
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < _len; i++ {
+		wg.Add(1)
+
+		go func(v1 IVector, v2 IVector, out IVector, f func(float64, float64) float64, i int) {
+			defer wg.Done()
+
+			out.SetAt(i, f(v1.GetAt(i), v2.GetAt(i)))
+		}(v1, v2, out, f, i)
+	}
+
+	wg.Wait()
+
+	return out
+}
