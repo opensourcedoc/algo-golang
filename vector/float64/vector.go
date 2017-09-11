@@ -140,8 +140,13 @@ func Pow(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return math.Pow(a, b) })
 }
 
+// Vector product
 func Dot(v1 IVector, v2 IVector) float64 {
 	return Reduce(Mul(v1, v2), func(a float64, b float64) float64 { return a + b })
+}
+
+func Cos(v1 IVector, v2 IVector) float64 {
+	return Dot(v1, v2) / (Magnitude(v1) * Magnitude(v2))
 }
 
 // Vector transformation delegating to function object.
