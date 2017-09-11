@@ -37,6 +37,26 @@ func TestMatrixNew(t *testing.T) {
 	}
 }
 
+func TestMatrixIdentity(t *testing.T) {
+	t.Parallel()
+
+	iden := Identity(3)
+
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if i == j {
+				if iden.GetAt(i, j) != 1 {
+					t.Error("Wrong value")
+				}
+			} else {
+				if iden.GetAt(i, j) != 0 {
+					t.Error("Wrong value")
+				}
+			}
+		}
+	}
+}
+
 func TestMatrixT(t *testing.T) {
 	t.Parallel()
 

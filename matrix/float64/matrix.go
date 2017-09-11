@@ -57,6 +57,16 @@ func WithSize(row int, col int) IMatrix {
 	return m
 }
 
+func Identity(n int) IMatrix {
+	m := WithSize(n, n)
+
+	for i := 0; i < n; i++ {
+		m.SetAt(i, i, 1.0)
+	}
+
+	return m
+}
+
 // The row size of the matrix.
 func (m *Matrix) Row() int {
 	return m.row
