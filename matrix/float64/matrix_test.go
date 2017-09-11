@@ -3,6 +3,8 @@ package matrix
 import "testing"
 
 func TestMatrixNew(t *testing.T) {
+	t.Parallel()
+
 	m := New(
 		[][]float64{
 			[]float64{1.0, 2.0, 3.0},
@@ -36,6 +38,8 @@ func TestMatrixNew(t *testing.T) {
 }
 
 func TestMatrixAdd(t *testing.T) {
+	t.Parallel()
+
 	m1 := New(
 		[][]float64{
 			[]float64{1.0, 2.0, 3.0},
@@ -73,6 +77,50 @@ func TestMatrixAdd(t *testing.T) {
 	}
 
 	if !(m.GetAt(1, 2) == 13.0) {
+		t.Error("Wrong value")
+	}
+}
+
+func TestMatrixSub(t *testing.T) {
+	t.Parallel()
+
+	m1 := New(
+		[][]float64{
+			[]float64{1.0, 2.0, 3.0},
+			[]float64{4.0, 5.0, 6.0},
+		},
+	)
+
+	m2 := New(
+		[][]float64{
+			[]float64{2.0, 3.0, 4.0},
+			[]float64{5.0, 6.0, 7.0},
+		},
+	)
+
+	m := Sub(m1, m2)
+
+	if !(m.GetAt(0, 0) == -1) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(0, 1) == -1) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(0, 2) == -1) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 0) == -1) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 1) == -1) {
+		t.Error("Wrong value")
+	}
+
+	if !(m.GetAt(1, 2) == -1) {
 		t.Error("Wrong value")
 	}
 }
