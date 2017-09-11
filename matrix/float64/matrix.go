@@ -97,117 +97,25 @@ func (m *Matrix) SetAt(r int, c int, data float64) {
 
 // Matrix element-wise addition
 func Add(m1 IMatrix, m2 IMatrix) IMatrix {
-	row := m1.Row()
-	col := m1.Col()
-
-	if row != m2.Row() {
-		panic("Unequal row size")
-	}
-
-	if col != m2.Col() {
-		panic("Unequal column size")
-	}
-
-	out := WithSize(row, col)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < row; i++ {
-		for j := 0; j < col; j++ {
-			wg.Add(1)
-
-			go func(m1 IMatrix, m2 IMatrix, out IMatrix, i int, j int) {
-				defer wg.Done()
-
-				a := m1.GetAt(i, j)
-				b := m2.GetAt(i, j)
-
-				out.SetAt(i, j, a+b)
-			}(m1, m2, out, i, j)
-		}
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(m1, m2, func(a float64, b float64) float64 { return a + b })
 }
 
 // Matrix element-wise substraction
 func Sub(m1 IMatrix, m2 IMatrix) IMatrix {
-	row := m1.Row()
-	col := m1.Col()
-
-	if row != m2.Row() {
-		panic("Unequal row size")
-	}
-
-	if col != m2.Col() {
-		panic("Unequal column size")
-	}
-
-	out := WithSize(row, col)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < row; i++ {
-		for j := 0; j < col; j++ {
-			wg.Add(1)
-
-			go func(m1 IMatrix, m2 IMatrix, out IMatrix, i int, j int) {
-				defer wg.Done()
-
-				a := m1.GetAt(i, j)
-				b := m2.GetAt(i, j)
-
-				out.SetAt(i, j, a-b)
-			}(m1, m2, out, i, j)
-		}
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(m1, m2, func(a float64, b float64) float64 { return a - b })
 }
 
 // Matrix element-wise multiplication
 func Mul(m1 IMatrix, m2 IMatrix) IMatrix {
-	row := m1.Row()
-	col := m1.Col()
-
-	if row != m2.Row() {
-		panic("Unequal row size")
-	}
-
-	if col != m2.Col() {
-		panic("Unequal column size")
-	}
-
-	out := WithSize(row, col)
-
-	var wg sync.WaitGroup
-
-	for i := 0; i < row; i++ {
-		for j := 0; j < col; j++ {
-			wg.Add(1)
-
-			go func(m1 IMatrix, m2 IMatrix, out IMatrix, i int, j int) {
-				defer wg.Done()
-
-				a := m1.GetAt(i, j)
-				b := m2.GetAt(i, j)
-
-				out.SetAt(i, j, a*b)
-			}(m1, m2, out, i, j)
-		}
-	}
-
-	wg.Wait()
-
-	return out
+	return Apply(m1, m2, func(a float64, b float64) float64 { return a * b })
 }
 
 // Matrix element-wise division
 func Div(m1 IMatrix, m2 IMatrix) IMatrix {
+	return Apply(m1, m2, func(a float64, b float64) float64 { return a / b })
+}
+
+func Apply(m1 IMatrix, m2 IMatrix, f func(float64, float64) float64) IMatrix {
 	row := m1.Row()
 	col := m1.Col()
 
@@ -227,14 +135,14 @@ func Div(m1 IMatrix, m2 IMatrix) IMatrix {
 		for j := 0; j < col; j++ {
 			wg.Add(1)
 
-			go func(m1 IMatrix, m2 IMatrix, out IMatrix, i int, j int) {
+			go func(m1 IMatrix, m2 IMatrix, out IMatrix, f func(float64, float64) float64, i int, j int) {
 				defer wg.Done()
 
 				a := m1.GetAt(i, j)
 				b := m2.GetAt(i, j)
 
-				out.SetAt(i, j, a/b)
-			}(m1, m2, out, i, j)
+				out.SetAt(i, j, f(a, b))
+			}(m1, m2, out, f, i, j)
 		}
 	}
 
