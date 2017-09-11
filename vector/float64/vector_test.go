@@ -122,7 +122,7 @@ func TestVectorMap(t *testing.T) {
 	t.Parallel()
 
 	v := New(1, 2, 3)
-	out := v.Map(func(n float64) float64 { return n * n })
+	out := Map(v, func(n float64) float64 { return n * n })
 
 	if !(out.GetAt(0) == 1) {
 		t.Log(v.GetAt(0))
@@ -162,7 +162,7 @@ func TestReduceByAdd(t *testing.T) {
 	t.Parallel()
 
 	v := New(1, 2, 3, 4, 5)
-	n := v.Reduce(func(a float64, b float64) float64 { return a + b })
+	n := Reduce(v, func(a float64, b float64) float64 { return a + b })
 	if n != 15 {
 		t.Log(n)
 		t.Error("Wrong value")

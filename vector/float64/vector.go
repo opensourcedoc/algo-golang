@@ -10,8 +10,6 @@ type IVector interface {
 	GetAt(int) float64
 	SetAt(int, float64)
 	Sort() IVector
-	Map(func(float64) float64) IVector
-	Reduce(func(float64, float64) float64) float64
 }
 
 type Vector struct {
@@ -269,7 +267,7 @@ func Pow(v1 IVector, v2 IVector) IVector {
 
 // Vector transformation delegating to function object.
 // This method delegates vector transformation to function object set by users.
-func (v *Vector) Map(f func(float64) float64) IVector {
+func Map(v IVector, f func(float64) float64) IVector {
 	_len := v.Len()
 
 	out := WithSize(_len)
@@ -322,7 +320,7 @@ func Apply(v1 IVector, v2 IVector, f func(float64, float64) float64) IVector {
 
 // Vector to scalars reduction.
 // This method delegates vector reduction to function object set by users.
-func (v *Vector) Reduce(f func(float64, float64) float64) float64 {
+func Reduce(v IVector, f func(float64, float64) float64) float64 {
 	_len := v.Len()
 
 	if _len <= 1 {
