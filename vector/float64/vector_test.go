@@ -4,7 +4,7 @@ import "testing"
 
 func TestVectorSort(t *testing.T) {
 	v := New(4, 2, 3, 5, 1)
-	sorted := v.Sort()
+	sorted := Sort(v)
 
 	for i := 0; i < 5; i++ {
 		if !(sorted.GetAt(i) == float64(i+1)) {

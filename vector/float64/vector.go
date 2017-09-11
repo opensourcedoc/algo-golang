@@ -9,7 +9,6 @@ type IVector interface {
 	Len() int
 	GetAt(int) float64
 	SetAt(int, float64)
-	Sort() IVector
 }
 
 type Vector struct {
@@ -78,7 +77,7 @@ func (v *Vector) SetAt(i int, data float64) {
 	v.Unlock()
 }
 
-func (v *Vector) Sort() IVector {
+func Sort(v IVector) IVector {
 	if v.Len() == 0 {
 		return v
 	}
