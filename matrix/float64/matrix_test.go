@@ -37,6 +37,43 @@ func TestMatrixNew(t *testing.T) {
 	}
 }
 
+func TestMatrixT(t *testing.T) {
+	t.Parallel()
+
+	m := New(
+		[][]float64{
+			[]float64{1, 2, 3},
+			[]float64{4, 5, 6},
+		},
+	)
+
+	out := T(m)
+
+	if !(out.GetAt(0, 0) == 1) {
+		t.Error("Wrong value")
+	}
+
+	if !(out.GetAt(0, 1) == 4) {
+		t.Error("Wrong value")
+	}
+
+	if !(out.GetAt(1, 0) == 2) {
+		t.Error("Wrong value")
+	}
+
+	if !(out.GetAt(1, 1) == 5) {
+		t.Error("Wrong value")
+	}
+
+	if !(out.GetAt(2, 0) == 3) {
+		t.Error("Wrong value")
+	}
+
+	if !(out.GetAt(2, 1) == 6) {
+		t.Error("Wrong value")
+	}
+}
+
 func TestMatrixAdd(t *testing.T) {
 	t.Parallel()
 

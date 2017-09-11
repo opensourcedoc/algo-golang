@@ -95,6 +95,27 @@ func (m *Matrix) SetAt(r int, c int, data float64) {
 	m.Unlock()
 }
 
+func T(m IMatrix) IMatrix {
+	out := WithSize(m.Col(), m.Row())
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < m.Row(); i++ {
+		for j := 0; j < m.Col(); j++ {
+			wg.Add(1)
+			go func(m IMatrix, out IMatrix, i int, j int) {
+				defer wg.Done()
+
+				out.SetAt(j, i, m.GetAt(i, j))
+			}(m, out, i, j)
+		}
+	}
+
+	wg.Wait()
+
+	return out
+}
+
 // Matrix element-wise addition
 func Add(m1 IMatrix, m2 IMatrix) IMatrix {
 	return Apply(m1, m2, func(a float64, b float64) float64 { return a + b })
