@@ -53,6 +53,29 @@ func TestVectorAddition(t *testing.T) {
 	}
 }
 
+func TestVectorScalarAdd(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+
+	v := ScalarAdd(v1, 3)
+
+	if !(v.GetAt(0) == 4) {
+		t.Log(v.GetAt(0))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(1) == 5) {
+		t.Log(v.GetAt(1))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(2) == 6) {
+		t.Log(v.GetAt(2))
+		t.Error("Wrong value")
+	}
+}
+
 func TestVectorSubstration(t *testing.T) {
 	t.Parallel()
 

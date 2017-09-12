@@ -118,6 +118,10 @@ func Add(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return a + b })
 }
 
+func ScalarAdd(v IVector, s float64) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return a + b })
+}
+
 // Vector substraction
 func Sub(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return a - b })
