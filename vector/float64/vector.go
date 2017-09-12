@@ -2,7 +2,6 @@ package vector
 
 import (
 	"math"
-	"sync"
 )
 
 type IVector interface {
@@ -12,7 +11,6 @@ type IVector interface {
 }
 
 type Vector struct {
-	sync.RWMutex
 	vec []float64
 }
 
@@ -70,9 +68,7 @@ func (v *Vector) SetAt(i int, data float64) {
 		panic("Index out of range")
 	}
 
-	v.Lock()
 	v.vec[i] = data
-	v.Unlock()
 }
 
 func Magnitude(v IVector) float64 {
@@ -186,19 +182,9 @@ func Map(v IVector, f func(float64) float64) IVector {
 
 	out := WithSize(_len)
 
-	var wg sync.WaitGroup
-
 	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v1 IVector, v2 IVector, f func(float64) float64, i int) {
-			defer wg.Done()
-
-			out.SetAt(i, f(v.GetAt(i)))
-		}(v, out, f, i)
+		out.SetAt(i, f(v.GetAt(i)))
 	}
-
-	wg.Wait()
 
 	return out
 }
@@ -215,19 +201,9 @@ func Apply(v1 IVector, v2 IVector, f func(float64, float64) float64) IVector {
 
 	out := WithSize(_len)
 
-	var wg sync.WaitGroup
-
 	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v1 IVector, v2 IVector, out IVector, f func(float64, float64) float64, i int) {
-			defer wg.Done()
-
-			out.SetAt(i, f(v1.GetAt(i), v2.GetAt(i)))
-		}(v1, v2, out, f, i)
+		out.SetAt(i, f(v1.GetAt(i), v2.GetAt(i)))
 	}
-
-	wg.Wait()
 
 	return out
 }
@@ -237,19 +213,9 @@ func ScalarApply(v IVector, s float64, f func(float64, float64) float64) IVector
 
 	out := WithSize(_len)
 
-	var wg sync.WaitGroup
-
 	for i := 0; i < _len; i++ {
-		wg.Add(1)
-
-		go func(v IVector, out IVector, s float64, f func(float64, float64) float64, i int) {
-			defer wg.Done()
-
-			out.SetAt(i, f(v.GetAt(i), s))
-		}(v, out, s, f, i)
+		out.SetAt(i, f(v.GetAt(i), s))
 	}
-
-	wg.Wait()
 
 	return out
 }
