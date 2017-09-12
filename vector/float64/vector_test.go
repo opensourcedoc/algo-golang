@@ -100,6 +100,52 @@ func TestVectorSubstration(t *testing.T) {
 	}
 }
 
+func TestVectorScalarSubFirst(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+
+	v := ScalarSubFirst(3, v1)
+
+	if !(v.GetAt(0) == 2) {
+		t.Log(v.GetAt(0))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(1) == 1) {
+		t.Log(v.GetAt(1))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(2) == 0) {
+		t.Log(v.GetAt(2))
+		t.Error("Wrong value")
+	}
+}
+
+func TestVectorScalarSubSecond(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+
+	v := ScalarSubSecond(v1, 3)
+
+	if !(v.GetAt(0) == -2) {
+		t.Log(v.GetAt(0))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(1) == -1) {
+		t.Log(v.GetAt(1))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(2) == 0) {
+		t.Log(v.GetAt(2))
+		t.Error("Wrong value")
+	}
+}
+
 func TestVectorMultiplication(t *testing.T) {
 	t.Parallel()
 

@@ -127,6 +127,14 @@ func Sub(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return a - b })
 }
 
+func ScalarSubFirst(s float64, v IVector) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return a - b })
+}
+
+func ScalarSubSecond(v IVector, s float64) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return b - a })
+}
+
 // Vector multiplication
 func Mul(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return a * b })
