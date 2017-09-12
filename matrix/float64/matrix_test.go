@@ -1,6 +1,9 @@
 package matrix
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 func TestMatrixNew(t *testing.T) {
 	t.Parallel()
@@ -306,5 +309,24 @@ func TestMatrixDot(t *testing.T) {
 
 	if !(m.GetAt(1, 1) == 77) {
 		t.Error("Wrong value")
+	}
+}
+
+func BenchmarkMatrixAdd(b *testing.B) {
+	const SIZE int = 3000
+	r := rand.New(rand.NewSource(99))
+
+	m := WithSize(SIZE, SIZE)
+	n := WithSize(SIZE, SIZE)
+
+	for i := 0; i < SIZE; i++ {
+		for j := 0; j < SIZE; j++ {
+			m.SetAt(i, j, r.Float64())
+			n.SetAt(i, j, r.Float64())
+		}
+	}
+
+	for i := 0; i < b.N; i++ {
+		Add(m, n)
 	}
 }

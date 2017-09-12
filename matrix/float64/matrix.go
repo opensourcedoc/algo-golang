@@ -12,7 +12,6 @@ type IMatrix interface {
 }
 
 type Matrix struct {
-	sync.RWMutex
 	row int
 	col int
 	mtx []float64
@@ -100,9 +99,7 @@ func (m *Matrix) SetAt(r int, c int, data float64) {
 		panic("Invalid column size")
 	}
 
-	m.Lock()
 	m.mtx[r*m.Col()+c] = data
-	m.Unlock()
 }
 
 func T(m IMatrix) IMatrix {
@@ -191,24 +188,16 @@ func Apply(m1 IMatrix, m2 IMatrix, f func(float64, float64) float64) IMatrix {
 
 	out := WithSize(row, col)
 
-	var wg sync.WaitGroup
+	//var wg sync.WaitGroup
 
 	for i := 0; i < row; i++ {
 		for j := 0; j < col; j++ {
-			wg.Add(1)
+			a := m1.GetAt(i, j)
+			b := m2.GetAt(i, j)
 
-			go func(m1 IMatrix, m2 IMatrix, out IMatrix, f func(float64, float64) float64, i int, j int) {
-				defer wg.Done()
-
-				a := m1.GetAt(i, j)
-				b := m2.GetAt(i, j)
-
-				out.SetAt(i, j, f(a, b))
-			}(m1, m2, out, f, i, j)
+			out.SetAt(i, j, f(a, b))
 		}
 	}
-
-	wg.Wait()
 
 	return out
 }
