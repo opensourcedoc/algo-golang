@@ -128,11 +128,11 @@ func Sub(v1 IVector, v2 IVector) IVector {
 }
 
 func ScalarSubFirst(s float64, v IVector) IVector {
-	return ScalarApply(v, s, func(a float64, b float64) float64 { return a - b })
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return b - a })
 }
 
 func ScalarSubSecond(v IVector, s float64) IVector {
-	return ScalarApply(v, s, func(a float64, b float64) float64 { return b - a })
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return a - b })
 }
 
 // Vector multiplication
@@ -150,16 +150,24 @@ func Div(v1 IVector, v2 IVector) IVector {
 }
 
 func ScalarDivFirst(s float64, v IVector) IVector {
-	return ScalarApply(v, s, func(a float64, b float64) float64 { return a / b })
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return b / a })
 }
 
 func ScalarDivSecond(v IVector, s float64) IVector {
-	return ScalarApply(v, s, func(a float64, b float64) float64 { return b / a })
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return a / b })
 }
 
 // Vector power
 func Pow(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return math.Pow(a, b) })
+}
+
+func ScalarPowBase(s float64, v IVector) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return math.Pow(b, a) })
+}
+
+func ScalarPowExp(v IVector, s float64) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return math.Pow(a, b) })
 }
 
 // Vector product
@@ -237,7 +245,7 @@ func ScalarApply(v IVector, s float64, f func(float64, float64) float64) IVector
 		go func(v IVector, out IVector, s float64, f func(float64, float64) float64, i int) {
 			defer wg.Done()
 
-			out.SetAt(i, f(s, v.GetAt(i)))
+			out.SetAt(i, f(v.GetAt(i), s))
 		}(v, out, s, f, i)
 	}
 
