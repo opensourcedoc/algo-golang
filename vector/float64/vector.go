@@ -28,8 +28,6 @@ func New(args ...float64) IVector {
 	return v
 }
 
-var mutex = &sync.Mutex{}
-
 func WithSize(size int) IVector {
 	v := new(Vector)
 	v.vec = make([]float64, size)
