@@ -161,10 +161,12 @@ func Dot(m1 IMatrix, m2 IMatrix) IMatrix {
 			wg.Add(1)
 			go func(m1 IMatrix, m2 IMatrix, out IMatrix, i int, j int) {
 				defer wg.Done()
+
 				temp := 0.0
 				for k := 0; k < m1.Col(); k++ {
 					temp += m1.GetAt(i, k) * m2.GetAt(k, j)
 				}
+
 				out.SetAt(i, j, temp)
 			}(m1, m2, out, i, j)
 		}
