@@ -149,6 +149,14 @@ func Div(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return a / b })
 }
 
+func ScalarDivFirst(s float64, v IVector) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return a / b })
+}
+
+func ScalarDivSecond(v IVector, s float64) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return b / a })
+}
+
 // Vector power
 func Pow(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return math.Pow(a, b) })

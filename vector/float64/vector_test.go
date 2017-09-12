@@ -217,6 +217,52 @@ func TestVectorDivision(t *testing.T) {
 	}
 }
 
+func TestVectorScalarDivFirst(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+
+	v := ScalarDivFirst(3, v1)
+
+	if !(v.GetAt(0) == 3.0) {
+		t.Log(v.GetAt(0))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(1) == 1.5) {
+		t.Log(v.GetAt(1))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(2) == 1) {
+		t.Log(v.GetAt(2))
+		t.Error("Wrong value")
+	}
+}
+
+func TestVectorScalarDivSecond(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+
+	v := ScalarDivSecond(v1, 3)
+
+	if !(v.GetAt(0) == 1.0/3.0) {
+		t.Log(v.GetAt(0))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(1) == 2.0/3.0) {
+		t.Log(v.GetAt(1))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(2) == 1) {
+		t.Log(v.GetAt(2))
+		t.Error("Wrong value")
+	}
+}
+
 func TestVectorPower(t *testing.T) {
 	t.Parallel()
 
