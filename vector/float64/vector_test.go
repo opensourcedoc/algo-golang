@@ -101,6 +101,29 @@ func TestVectorMultiplication(t *testing.T) {
 	}
 }
 
+func TestVectorScalarMul(t *testing.T) {
+	t.Parallel()
+
+	v1 := New(1, 2, 3)
+
+	v := ScalarMul(v1, 3)
+
+	if !(v.GetAt(0) == 3) {
+		t.Log(v.GetAt(0))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(1) == 6) {
+		t.Log(v.GetAt(1))
+		t.Error("Wrong value")
+	}
+
+	if !(v.GetAt(2) == 9) {
+		t.Log(v.GetAt(2))
+		t.Error("Wrong value")
+	}
+}
+
 func TestVectorDivision(t *testing.T) {
 	t.Parallel()
 

@@ -128,6 +128,10 @@ func Mul(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return a * b })
 }
 
+func ScalarMul(v IVector, s float64) IVector {
+	return ScalarApply(v, s, func(a float64, b float64) float64 { return a * b })
+}
+
 // Vector division
 func Div(v1 IVector, v2 IVector) IVector {
 	return Apply(v1, v2, func(a float64, b float64) float64 { return a / b })
@@ -193,6 +197,28 @@ func Apply(v1 IVector, v2 IVector, f func(float64, float64) float64) IVector {
 
 			out.SetAt(i, f(v1.GetAt(i), v2.GetAt(i)))
 		}(v1, v2, out, f, i)
+	}
+
+	wg.Wait()
+
+	return out
+}
+
+func ScalarApply(v IVector, s float64, f func(float64, float64) float64) IVector {
+	_len := v.Len()
+
+	out := WithSize(_len)
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < _len; i++ {
+		wg.Add(1)
+
+		go func(v IVector, out IVector, s float64, f func(float64, float64) float64, i int) {
+			defer wg.Done()
+
+			out.SetAt(i, f(s, v.GetAt(i)))
+		}(v, out, s, f, i)
 	}
 
 	wg.Wait()
