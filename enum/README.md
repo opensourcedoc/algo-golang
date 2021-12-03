@@ -6,7 +6,7 @@ Enumeration implementation in Go
 
 Go lacks real enumeration type. Currently, most online tutorials use constant as an alternative. However, that apporach misses real type protecton. The following code is wrongly correct:
 
-```
+```golang
 package main
 
 import "log"
@@ -32,7 +32,7 @@ In our approach, we use set (as math) to emulate enumeration. When programmers c
 
 Check whether the value exists:
 
-```
+```golang
 package main
 
 import (
@@ -51,7 +51,7 @@ func main() {
 
 Get the value from the Enum object:
 
-```
+```golang
 package main
 
 import (
@@ -76,7 +76,7 @@ func main() {
 
 ## Copyright
 
-2017, Michael Chen
+2017, Michelle Chen
 
 ## License
 

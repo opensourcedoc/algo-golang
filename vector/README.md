@@ -10,7 +10,7 @@ Go lacks vector data structures as those in R and Python. This library demostrat
 
 Vector addition:
 
-```
+```golang
 package main
 
 import (
@@ -32,7 +32,7 @@ func main() {
 
 Vector algebra by delegation:
 
-```
+```golang
 package main
 
 import (
@@ -53,7 +53,7 @@ func main() {
 
 ## Copyright
 
-2017, Michael Chen
+2017, Michelle Chen
 
 ## License
 

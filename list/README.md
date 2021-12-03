@@ -15,7 +15,7 @@ This library implements common higher order functions as well. Same, the library
 
 Find specific elements:
 
-```
+```golang
 package main
 
 import (
@@ -39,7 +39,7 @@ func main() {
 
 Select only even elements:
 
-```
+```golang
 package main
 
 import (
@@ -76,7 +76,7 @@ func isEven(a interface{}) (bool, error) {
 
 ## Copyright
 
-2017, Michael Chen
+2017, Michelle Chen
 
 ## License
 
