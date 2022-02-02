@@ -14,8 +14,4 @@ We adapt the third approach, delegating some tasks to users.
 
 ## Copyright
 
-2017, Michelle Chen
-
-## License
-
-MIT
+Copyright (c) 2017 Michelle Chen. Licensed under MIT
